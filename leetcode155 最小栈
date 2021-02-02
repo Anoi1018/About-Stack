@@ -1,0 +1,41 @@
+设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
+
+push(x) —— 将元素 x 推入栈中。
+pop() —— 删除栈顶的元素。
+top() —— 获取栈顶元素。
+getMin() —— 检索栈中的最小元素。
+解释：
+MinStack minStack = new MinStack();
+minStack.push(-2);
+minStack.push(0);
+minStack.push(-3);
+minStack.getMin();   --> 返回 -3.
+minStack.pop();
+minStack.top();      --> 返回 0.
+minStack.getMin();   --> 返回 -2.
+
+代码示意：
+var MinStack = function() {
+    this.size =0;
+    this.item = [];
+};
+MinStack.prototype.push = function(x) {
+    this.minNumber = this.minNumber===undefined? x : Math.min(this.minNumber,x);
+    this.item[this.size++] = x;
+};
+MinStack.prototype.pop = function() {
+    this.size--;
+    if(this.size===0) this.minNumber = undefined;//注意这里的判空操作
+    if(this.item[this.size]===this.minNumber){
+        this.minNumber = this.item[0];
+        for(let i=1;i<this.size;i++){
+            this.minNumber = Math.min(this.minNumber,this.item[i]);
+        }
+    } 
+};
+MinStack.prototype.top = function() {
+    return this.item[this.size-1];
+};
+MinStack.prototype.getMin = function() {
+    return this.minNumber;
+};
