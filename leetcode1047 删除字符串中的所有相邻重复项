@@ -1,0 +1,52 @@
+给出由小写字母组成的字符串 S，重复项删除操作会选择两个相邻且相同的字母，并删除它们。
+
+在 S 上反复执行重复项删除操作，直到无法继续删除。
+
+在完成所有重复项删除操作后返回最终的字符串。答案保证唯一。
+
+ 
+示例：
+输入："abbaca"
+输出："ca"
+
+代码示意：
+一、遍历 + 递归（有错误）
+var removeDuplicates = function(S) {
+    if(S.length<2) return S;
+    if(S.length==2 && S[0]!==S[1]) return S;
+    let i=0,j=0,len=S.length;
+    while(i<len-1){
+        while(S[i]!==S[i+1]){
+             i++;
+             if(i===len-1) return S;
+        }
+        j = i+1;
+        while(j<len){
+            if(S[j]===S[i]){
+                j++;
+            }else {
+                break;
+            }
+        }
+        S = S.split("").splice(i,j-i).join("");
+        break;
+    }
+    removeDuplicates(S);
+};
+二、栈
+时间复杂度：O（n） 空间复杂度O（n）
+var removeDuplicates = function(S) {
+    if(S.length<2) return S;
+    if(S.length==2 && S[0]!==S[1]) return S;
+    const stack = [];let SL = stack.length;
+    for(let i=0;i<S.length;i++){
+        if(SL==0 || S[i]!==stack[SL-1]){
+            stack.push(S[i]);
+            SL++;
+        }else if(S[i]===stack[SL-1]){
+            stack.pop();
+            SL--;
+        }
+    }
+    return stack.join("");
+};
