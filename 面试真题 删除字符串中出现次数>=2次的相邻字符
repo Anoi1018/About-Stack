@@ -4,5 +4,23 @@
 
 
 代码示意：
-一、栈 时间复杂度O（n） 空间复杂度O（n）
-var  removeDuplicate = function()
+栈 时间复杂度O（n） 空间复杂度O（n）
+var removeDuplicates = function(S) {
+    const stack = [];
+    let i=0,char;
+    while(i<S.length){
+        char = stack.length ===0? undefined:stack[stack.length-1]; //char保存栈顶元素
+        if(S[i]===char){ //S[i]待入栈字符
+            stack.pop();
+            while(S[i]===char) ++i; //遍历到第一个与原先栈顶元素不相等的字符 即删除了相邻n>=2个字符
+        }else {
+            stack.push(S[i]);
+            ++i;
+        }
+    }
+    return stack.join("");
+};
+
+
+
+
