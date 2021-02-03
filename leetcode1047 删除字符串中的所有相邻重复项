@@ -1,4 +1,4 @@
-给出由小写字母组成的字符串 S，重复项删除操作会选择两个相邻且相同的字母，并删除它们。
+给出由小写字母组成的字符串 S，重复项删除操作会选择两个相邻且相同的字母，并删除它们。 -->注意审题  是两个相邻且相同的删除 而不是一次性删除所有相邻相同的
 
 在 S 上反复执行重复项删除操作，直到无法继续删除。
 
@@ -6,34 +6,44 @@
 
  
 示例：
-输入："abbaca"
-输出："ca"
+输入："abbbabaaa"
+输出："ababa"
 
 代码示意：
-一、遍历 + 递归（有错误）
+一、遍历 + 递归 -->时间效率和空间效率都不高
 var removeDuplicates = function(S) {
     if(S.length<2) return S;
     if(S.length==2 && S[0]!==S[1]) return S;
-    let i=0,j=0,len=S.length;
-    while(i<len-1){
-        while(S[i]!==S[i+1]){
-             i++;
-             if(i===len-1) return S;
+    let length = S.length,len = length;
+    
+    for(let i=1;i<length;i++){
+        if(S[i]===S[i-1]){
+            S =S.substring(0,i-1)+S.substring(i+1);
+            len = len-2;
+            break;
         }
-        j = i+1;
-        while(j<len){
-            if(S[j]===S[i]){
-                j++;
-            }else {
-                break;
-            }
-        }
-        S = S.split("").splice(i,j-i).join("");
-        break;
     }
-    removeDuplicates(S);
+    if(length === len) return S;
+    return removeDuplicates(S);
 };
-二、栈
+二、遍历+迭代 -->时间效率表现不是很好 但空间效率表现可以
+var removeDuplicates = function(S) {
+    if(S.length<2) return S;
+    if(S.length==2 && S[0]!==S[1]) return S;
+    let len = S.length,i=1;
+    
+    while(S && i<len){ 
+        if(S[i]===S[i-1]){
+            S =S.substring(0,i-1)+S.substring(i+1);
+            len = len-2;
+            i=1;
+        }else {
+            i++;
+        }
+    }
+    return S;
+};
+三、栈
 时间复杂度：O（n） 空间复杂度O（n）
 var removeDuplicates = function(S) {
     if(S.length<2) return S;
