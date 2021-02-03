@@ -1,0 +1,8 @@
+输入："abbbaca"
+输出："ca"
+解释："abbbaca" => "aaca"=>"ca"
+
+
+代码示意：
+一、栈 时间复杂度O（n） 空间复杂度O（n）
+var  removeDuplicate = function()
